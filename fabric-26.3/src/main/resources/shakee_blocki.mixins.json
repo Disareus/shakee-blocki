@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.shakeeblocki.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.shakeeblocki.mixin.ShakeeMixinPlugin",
+  "client": [
+    "BlockEntityRenderManagerMixin",
+    "BlockModelRendererMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientWorldMixin",
+    "RenderSectionRegionMixin",
+    "WorldRendererBlockDamageMixin",
+    "WorldRendererOutlineMixin261",
+    "WorldRendererOutlineMixin262",
+    "bbe.BBEAltRenderDispatcherMixin",
+    "bbe.BBEBlockEntityMixin",
+    "bbe.BBEBlockRendererMixin",
+    "bbe.BBEChestRendererMixin",
+    "bbe.BBELevelRendererMixin",
+    "bbe.BBEOverlayRendererMixin",
+    "bbe.BBESectionRebuildCallbacksMixin",
+    "bbe.BBESignRendererMixin",
+    "bbe.BBESodiumWorldRendererMixin",
+    "sodium.BlockOcclusionCacheMixin",
+    "sodium.BlockRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
