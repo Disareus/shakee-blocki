@@ -21,10 +21,6 @@ public final class ShakeePlatform {
 
     private ShakeePlatform() {}
 
-    public static void init(Path configDirPath) {
-        configDir = configDirPath;
-    }
-
     public static void init(Path configDirPath, Predicate<BlockState> bakedModelCheck) {
         init(configDirPath, bakedModelCheck, null);
     }

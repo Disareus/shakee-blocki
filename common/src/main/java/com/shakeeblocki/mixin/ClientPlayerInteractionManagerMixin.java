@@ -119,8 +119,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
     private BlockState destroyPartnerState;
     @Unique
     private BlockEntity destroyPartnerBlockEntity;
-    @Unique
-    private long destroyTargetTick = -1L;
 
     @Inject(method = "destroyBlock", at = @At("HEAD"))
     private void captureDestroyBlock(
@@ -137,7 +135,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
         this.destroyTargetPos = pos.immutable();
         this.destroyTargetState = state;
         this.destroyTargetBlockEntity = state.hasBlockEntity() ? world.getBlockEntity(pos) : null;
-        this.destroyTargetTick = ShakeeAnimationManager.getClientTicks();
 
         if (!(state.getBlock() instanceof ChestBlock)) {
             BlockPos partnerPos = ShakeeAnimationManager.getConnectedPos(pos, state);
@@ -181,7 +178,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
         this.destroyPartnerPos = null;
         this.destroyPartnerState = null;
         this.destroyPartnerBlockEntity = null;
-        this.destroyTargetTick = -1L;
     }
 
     @Inject(method = "startDestroyBlock", at = @At("RETURN"))

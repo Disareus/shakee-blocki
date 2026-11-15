@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -39,7 +38,6 @@ public final class ShakeeAnimationManager {
     private static final Long2ObjectOpenHashMap<ShakeeAnimationState> ACTIVE = new Long2ObjectOpenHashMap<>();
     private static final Long2ObjectOpenHashMap<PendingPlacement> PENDING = new Long2ObjectOpenHashMap<>();
     private static final LongArrayList TO_REMOVE = new LongArrayList();
-    private static final LongSet DIRTY_SECTIONS = new LongOpenHashSet();
     private static final LongSet RENDERED_BLOCK_ENTITIES_THIS_FRAME = new LongOpenHashSet();
 
     private static long clientTicks = 0L;
@@ -66,7 +64,6 @@ public final class ShakeeAnimationManager {
         }
 
         ShakeeConfig config = ShakeeConfig.get();
-        DIRTY_SECTIONS.clear();
 
         if (!PENDING.isEmpty()) {
             PENDING.values().removeIf(pending -> pending.expiresAt() <= clientTicks);
@@ -149,8 +146,6 @@ public final class ShakeeAnimationManager {
             }
         }
         activeAnimationsPresent = !ACTIVE.isEmpty();
-
-        DIRTY_SECTIONS.clear();
     }
 
     public static boolean hasActiveAnimations() {
@@ -163,10 +158,6 @@ public final class ShakeeAnimationManager {
 
     public static boolean isInvisible(BlockPos pos) {
         return pos != null && ShakeeRenderSuppressor.isSuppressed(pos.asLong());
-    }
-
-    public static boolean isInvisible(long posLong) {
-        return ShakeeRenderSuppressor.isSuppressed(posLong);
     }
 
     public static boolean isAnimatedOrInvisible(BlockPos pos) {
@@ -330,7 +321,6 @@ public final class ShakeeAnimationManager {
         activeAnimationsPresent = false;
         PENDING.clear();
         TO_REMOVE.clear();
-        DIRTY_SECTIONS.clear();
         RENDERED_BLOCK_ENTITIES_THIS_FRAME.clear();
         lastPlacementTick = -100L;
         trackedWorld = null;
@@ -692,11 +682,8 @@ public final class ShakeeAnimationManager {
 
     public static void rerender(ClientLevel world, BlockPos pos) {
         if (world == null || pos == null) return;
-        long sectionKey = SectionPos.asLong(pos);
-        if (DIRTY_SECTIONS.add(sectionKey)) {
-            BlockState current = world.getBlockState(pos);
-            world.sendBlockUpdated(pos, current, current, Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE);
-        }
+        BlockState current = world.getBlockState(pos);
+        world.sendBlockUpdated(pos, current, current, Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE);
     }
 
     private static void refreshExisting(ClientLevel world, BlockPos pos, BlockState state) {

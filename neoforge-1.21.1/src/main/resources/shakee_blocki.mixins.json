@@ -12,8 +12,11 @@
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "LevelRendererOutlineMixin",
+    "RenderChunkRegionMixin",
+    "VisGraphMixin",
     "embeddium.BlockOcclusionCacheMixin",
     "embeddium.BlockRendererMixin",
+    "immersivevfx.SmoothBlockPlaceMixin",
     "sodium.BlockOcclusionCacheMixin",
     "sodium.BlockRendererMixin"
   ],

@@ -41,10 +41,6 @@ public final class ShakeeRenderSuppressor {
         }
     }
 
-    public static boolean suppress(BlockPos pos) {
-        return pos != null && suppress(pos.asLong());
-    }
-
     public static boolean release(long posLong) {
         synchronized (LOCK) {
             int count = SUPPRESSED.get(posLong);
@@ -67,10 +63,6 @@ public final class ShakeeRenderSuppressor {
             SUPPRESSED.put(posLong, count - 1);
             return false;
         }
-    }
-
-    public static boolean release(BlockPos pos) {
-        return pos != null && release(pos.asLong());
     }
 
     public static void markAnimated(long posLong) {
@@ -103,10 +95,6 @@ public final class ShakeeRenderSuppressor {
         synchronized (LOCK) {
             return SUPPRESSED.containsKey(posLong);
         }
-    }
-
-    public static boolean isSuppressed(BlockPos pos) {
-        return pos != null && isSuppressed(pos.asLong());
     }
 
     public static boolean isAnimatedOrSuppressed(long posLong) {

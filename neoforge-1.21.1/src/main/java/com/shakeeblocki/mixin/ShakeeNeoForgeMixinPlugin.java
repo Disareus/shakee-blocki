@@ -17,6 +17,7 @@ import java.util.Set;
 public class ShakeeNeoForgeMixinPlugin implements IMixinConfigPlugin {
     private static final boolean HAS_SODIUM = isModPresent("sodium");
     private static final boolean HAS_EMBEDDIUM = isModPresent("embeddium");
+    private static final boolean HAS_IMMERSIVE_VFX = isModPresent("immersivevfx");
 
     private static boolean isModPresent(String modId) {
         LoadingModList loadingList = LoadingModList.get();
@@ -50,6 +51,9 @@ public class ShakeeNeoForgeMixinPlugin implements IMixinConfigPlugin {
         }
         if (mixinClassName.contains(".embeddium.")) {
             return HAS_EMBEDDIUM && targetClassExists(targetClassName);
+        }
+        if (mixinClassName.contains(".immersivevfx.")) {
+            return HAS_IMMERSIVE_VFX && targetClassExists(targetClassName);
         }
         return true;
     }
